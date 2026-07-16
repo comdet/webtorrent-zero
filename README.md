@@ -17,6 +17,36 @@
 </p>
 <br>
 
+## ⚡ webtorrent-zero — patched fork
+
+This repo is `webtorrent-cli` 3.0.7 with its full `node_modules` tree committed to git,
+including one patch on the bundled `webtorrent` 0.108.6
+(`node_modules/webtorrent/lib/torrent.js`): extra tracker announce parameters
+`numwant: 200, compact: 1, no_peer_id: 1` — requests up to 200 peers per announce
+instead of the default ~50.
+
+**Do not install from the npm registry or run plain `npm install -g .`** — npm would
+re-resolve dependencies from the registry, which drops the patch and pulls a modern
+ESM-only `webtorrent` that breaks this CLI.
+
+### Install (global, self-contained)
+
+`package.json` sets `bundleDependencies: true`, so `npm pack` embeds the entire
+patched `node_modules` into the tarball:
+
+```bash
+git clone https://github.com/comdet/webtorrent-zero
+cd webtorrent-zero
+npm pack
+npm install -g ./webtorrent-cli-3.0.7.tgz
+webtorrent --version   # → 3.0.7 (0.108.6)
+```
+
+The global install is fully self-contained — the clone can be deleted afterwards.
+Uninstall with `npm rm -g webtorrent-cli`.
+
+---
+
 **WebTorrent** is the first BitTorrent client that works in the **browser**, but `webtorrent-cli`,
 i.e. *THIS PACKAGE*, is for using WebTorrent from the **command line**.
 
@@ -48,11 +78,9 @@ To use WebTorrent in the browser, see [`webtorrent`](https://www.npmjs.com/packa
 
 ### Install
 
-To install a `webtorrent` command line program, run:
-
-```bash
-npm install webtorrent-cli -g
-```
+⚠️ Installing from the npm registry (`npm install webtorrent-cli -g`) gives the
+**unpatched** upstream package. To get this repo's patched version, follow
+[Install (global, self-contained)](#install-global-self-contained) above.
 
 ### Usage
 

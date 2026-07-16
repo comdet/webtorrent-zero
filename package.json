@@ -33,7 +33,7 @@
   "bugs": {
     "url": "https://github.com/webtorrent/webtorrent-cli/issues"
   },
-  "bundleDependencies": false,
+  "bundleDependencies": true,
   "dependencies": {
     "airplay-js": "^0.3.0",
     "chromecasts": "^1.9.1",
